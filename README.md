@@ -1,6 +1,8 @@
 # arkroot
 
-Arkroot assignment
+Arkroot assignment (Web only)
+
+[https://maxeema.github.io/arkroot](https://maxeema.github.io/arkroot)
 
 ## Getting Started
 
