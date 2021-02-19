@@ -1,6 +1,7 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps/google_maps.dart' hide Icon;
+import 'package:google_maps/google_maps.dart' hide Icon, Padding;
 
 import 'map_model.dart' as model;
 
@@ -16,83 +17,129 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  GMap get map => model.mapInstance.value;
+  final textController = TextEditingController(text: model.kml);
 
   @override
   void initState() {
     super.initState();
-    model.mapInstance.addListener(updateState);
+    model.mapInstanceNotifier.addListener(updateState);
     model.mapTypeIdChangeNotifier.addListener(updateState);
   }
   @override
   void dispose() {
-    model.mapInstance.removeListener(updateState);
+    model.mapInstanceNotifier.removeListener(updateState);
     model.mapTypeIdChangeNotifier.removeListener(updateState);
+    textController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Stack(
-        children: [
-          HtmlElementView(
-            viewType: model.html_id,
+      home: Scaffold(
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: FloatingActionButton.extended(
+            onPressed: model.switchMapType,
+            label: Row(
+              children: [
+                AnimatedSwitcher(
+                  duration: Duration(milliseconds: 300),
+                  child: Text(
+                    '${model.mapTypeName} ',
+                    key: ValueKey(model.type),
+                  ),
+                ),
+                SizedBox(width: 4,),
+                Icon(Icons.refresh),
+              ],
+            ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: map == null ? Container() : Container(
-              padding: EdgeInsets.all(16),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RaisedButton(
-                    color: Colors.deepOrangeAccent,
-                    textColor: Colors.white,
-                    onPressed: model.reset,
-                    child: Text(
-                      ' Reset ',
-                    ),
-                  ),
-                  SizedBox(width: 16,),
-                  RaisedButton(
-                    onPressed: model.drawPolygon,
-                    child: Text(
-                      'Draw polygon',
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                  RaisedButton(
-                    onPressed: model.loadKml,
-                    child: Text(
-                      'Use kml',
-                      key: ValueKey(model.mapType),
-                    ),
-                  ),
-                  SizedBox(width: 16,),
-                  FloatingActionButton.extended(
-                    onPressed: model.switchMapType,
-                    label: Row(
-                      children: [
-                        AnimatedSwitcher(
-                          duration: Duration(milliseconds: 300),
-                          child: Text(
-                            '${model.mapTypeName} ',
-                            key: ValueKey(model.mapType),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+        body: Stack(
+          children: [
+            HtmlElementView(
+              viewType: model.html_id,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: model.map == null ? Container() : Container(
+                padding: EdgeInsets.all(16),
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 64),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          RaisedButton(
+                            color: Colors.deepOrangeAccent,
+                            textColor: Colors.white,
+                            onPressed: () {
+                              model.reset();
+                              textController.text = model.kml;
+                            },
+                            child: Text(
+                              ' Reset ',
+                            ),
+                          ),
+                          SizedBox(width: 16,),
+                          RaisedButton(
+                            color: Colors.green,
+                            textColor: Colors.white,
+                            onPressed: model.goBermuda,
+                            child: Text(
+                              'Bermuda',
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16,),
+                      //
+                      IntrinsicHeight(
+                        child: FractionallySizedBox(
+                          widthFactor: .7,
+                          child: Material(
+                            color: Colors.white70,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                RaisedButton(
+                                  color: Colors.transparent,
+                                  textColor: Colors.black,
+                                  onPressed: () => model.loadKml(textController.text),
+                                  child: Text(
+                                    'Go',
+                                    key: ValueKey(model.type),
+                                  ),
+                                ),
+                                SizedBox(width: 16,),
+                                Flexible(
+                                  child: ConstrainedBox(
+                                    constraints: BoxConstraints(maxWidth: 500),
+                                    child: TextField(
+                                      controller: textController,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        SizedBox(width: 4,),
-                        Icon(Icons.refresh),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              )
             )
-          )
-        ],
-      )
+          ],
+        ),
+      ),
     );
   }
 

@@ -2,17 +2,16 @@ import 'dart:async';
 import 'dart:html';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_maps/google_maps.dart';
 import 'package:universal_ui/universal_ui.dart';
+import 'bermuda.dart' as bermuda;
 
 const html_id = 'my_map';
 
-// const kml = 'http://googlearchive.github.io/js-v2-samples/ggeoxml/cta.kml';
-const kml = 'https://maxeema.github.io/arkroot/doc.kml';
-
-final startPosition = LatLng(25.77427, -80.19366);
-final startZoom = 11;
-final polygonStep = 0.075;
+// const kml = 'https://developers.google.com/maps/documentation/javascript/examples/kml/westcampus.kml';
+const kml = 'http://googlearchive.github.io/js-v2-samples/ggeoxml/cta.kml';
+// const kml = 'https://maxeema.github.io/arkroot/doc.kml';
 
 final mapTypes = [ MapTypeId.TERRAIN, MapTypeId.ROADMAP, MapTypeId.SATELLITE, MapTypeId.HYBRID, ];
 final mapTypeNames = {
@@ -22,30 +21,43 @@ final mapTypeNames = {
   MapTypeId.ROADMAP: "Roadmap"
 };
 
-MapTypeId mapType = mapTypes.first;
+MapTypeId _type = mapTypes.first;
+MapTypeId get type => _type;
 
-final mapInstance = ValueNotifier<GMap>(null);
+GMap _map;
+GMap get map => _map;
+
+final _mapInstance = ValueNotifier<GMap>(null);
+ValueListenable<GMap> get mapInstanceNotifier => _mapInstance;
+
 final mapTypeIdChangeNotifier = ChangeNotifier();
 
-String get mapTypeName => mapTypeNames[mapType];
+String get mapTypeName => mapTypeNames[type];
 
+initMap() {
+  _map?.center = bermuda.position;
+  _map?.zoom = bermuda.zoom;
+}
 registerMap() {
   PlatformViewRegistryFix().registerViewFactory(html_id, (int viewId) {
-    final mapOptions = MapOptions()
-      ..center = startPosition
-      ..zoom = startZoom
-      ..mapTypeId = mapType;
-
     final elem = DivElement()
       ..id = html_id
       ..style.width = "100%"
       ..style.height = "100%"
       ..style.border = 'none';
+    
+    final mapOptions = MapOptions()
+      ..mapTypeId = type;
 
-    final map = GMap(elem, mapOptions);
+    _map = GMap(elem, mapOptions);
+
+    // _map.addListener('mapTypeId', () {
+    //   print('listener on mapTypeId: ' + _map.mapTypeId);
+    // });
 
     Future(() {
-      mapInstance.value = map;
+      _mapInstance.value = _map;
+      initMap();
     });
 
     return elem;
@@ -53,47 +65,34 @@ registerMap() {
 }
 
 void switchMapType() {
-  if (mapTypes.last == mapType) {
+  if (mapTypes.last == type) {
     _switchMapType(mapTypes.first);
   } else {
-    _switchMapType(mapTypes[mapTypes.indexOf(mapType)+1]);
+    _switchMapType(mapTypes[mapTypes.indexOf(type)+1]);
   }
 }
 void _switchMapType(MapTypeId newValue) {
-  mapType = newValue;
-  mapInstance.value.mapTypeId = mapType;
+  _type = newValue;
+  map?.mapTypeId = type;
   mapTypeIdChangeNotifier.notifyListeners();
 }
 
 KmlLayer _kmlLayer;
-loadKml() {
+loadKml(url) {
   _kmlLayer ??= KmlLayer(KmlLayerOptions()
     ..preserveViewport = false
     ..suppressInfoWindows = true
-    ..url = kml
   );
-  _kmlLayer.map = mapInstance.value;
+  _kmlLayer.url = url?.trim();
+  _kmlLayer.map = _map;
 }
 
-Polygon _polygon;
-drawPolygon() {
-  _polygon ??= Polygon(
-    PolygonOptions()
-      ..fillColor = "#00ff00"
-      ..paths = [
-        LatLng(startPosition.lat + polygonStep, startPosition.lng - polygonStep),
-        LatLng(startPosition.lat + polygonStep, startPosition.lng + polygonStep),
-        LatLng(startPosition.lat - polygonStep , startPosition.lng + polygonStep),
-        LatLng(startPosition.lat - polygonStep, startPosition.lng - polygonStep),
-      ]
-  );
-  _polygon.map = mapInstance.value;
-}
+goBermuda() => bermuda.go(map);
 
 reset() {
-  mapInstance?.value?.center = startPosition;
-  mapInstance?.value?.zoom = startZoom;
+  initMap();
   _kmlLayer?.map = null;
-  _polygon?.map = null;
-  _switchMapType(mapTypes.first);
+  bermuda.reset();
+  if (_map != null)
+    _switchMapType(mapTypes.first);
 }
