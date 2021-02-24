@@ -1,8 +1,8 @@
-# arkroot
+# Flutter Web - Maps with KML
 
-Arkroot assignment (Web only)
+An example of working with KML, Polygons in Flutter web
 
-[https://maxeema.github.io/arkroot](https://maxeema.github.io/arkroot)
+[https://maxeema.github.io/flutter_web_maps_demo](https://maxeema.github.io/flutter_web_maps_demo)
 
 ## Getting Started
 
