@@ -7,7 +7,7 @@ const RESOURCES = {
 "westcampus.kml": "763390db3cc47c04e13676628100d8d0",
 "version.json": "df9627f6b8814b1290c24cb387291341",
 "manifest.json": "b474b4416e53a378a1c6a1f7b5f52d24",
-"main.dart.js": "4848b28ea2280d4490a8a518fdf9c63f",
+"main.dart.js": "76a8d8e453582294936bf87052e44681",
 "assets/NOTICES": "bdcbca39d7f848ec009233693d023896",
 "assets/AssetManifest.json": "2efbb41d7877d10aac9d091f58ccd7b9",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
@@ -15,8 +15,8 @@ const RESOURCES = {
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
-"index.html": "b92b54e741f67e17e40b618dd00a0804",
-"/": "b92b54e741f67e17e40b618dd00a0804",
+"index.html": "d720607ba73a18dddd02ed5aed49f222",
+"/": "d720607ba73a18dddd02ed5aed49f222",
 "doc.kml": "9e2e9493bbcb6c188bd17d6d3b866075",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796"
 };
