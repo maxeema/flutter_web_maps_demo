@@ -1,5 +1,5 @@
-name: arkroot
-description: Arkroot assignment
+name: flutter_web_maps_demo
+description: Flutter Web example - working with Maps and KML
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -27,7 +27,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.0
 #  google_maps_flutter: ^1.2.0
 #  google_maps_flutter_web: ^0.1.1
   google_maps: ^4.0.0

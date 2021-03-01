@@ -1,11 +1,11 @@
 {
-    "name": "arkroot",
-    "short_name": "arkroot",
+    "name": "flutter_web_maps_demo",
+    "short_name": "Flutter Web Maps example",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Arkroot assignment",
+    "description": "Flutter Web example: working with Maps and KML",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
