@@ -51,10 +51,6 @@ registerMap() {
 
     _map = GMap(elem, mapOptions);
 
-    // _map.addListener('mapTypeId', () {
-    //   print('listener on mapTypeId: ' + _map.mapTypeId);
-    // });
-
     Future(() {
       _mapInstance.value = _map;
       initMap();
