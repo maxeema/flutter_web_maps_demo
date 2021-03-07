@@ -35,7 +35,7 @@ final mapTypeIdChangeNotifier = ChangeNotifier();
 String get mapTypeName => mapTypeNames[type]!;
 
 initMap() {
-  _map?.center = bermuda.position;
+  _map?.center = bermuda.position.toLatLng();
   _map?.zoom = bermuda.zoom;
 }
 registerMap() {

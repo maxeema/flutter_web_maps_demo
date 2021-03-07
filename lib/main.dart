@@ -1,7 +1,9 @@
 // @dart=2.9
+// Use dart 2.9 for mix code when our project support Dart null safety
+//  but dependencies like 'google_maps' and 'universal_ui' haven't migrated to null safety yet
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps/google_maps.dart' hide Icon, Padding;
 
 import 'map_model.dart' as model;
 

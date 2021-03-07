@@ -1,9 +1,14 @@
 
 import 'package:google_maps/google_maps.dart';
 
-final position = LatLng(24.886, -70.268);
-final zoom = 5;
+const position = [/*lat*/24.886, /*lng*/-70.268];
+const zoom = 5;
 
+extension ListLatLngExt on List<double> {
+  toLatLng() => LatLng(first, last);
+}
+
+/// see https://developers.google.com/maps/documentation/javascript/examples/polygon-simple
 polygon() {
   // Define the LatLng coordinates for the polygon's  outer path.
   final outerCoords = [
@@ -35,7 +40,7 @@ Polygon? _polygon;
 go(GMap map) {
   _polygon ??= polygon();
   map
-    ..center = position
+    ..center = position.toLatLng()
     ..zoom = zoom;
   _polygon.map = map;
 }
