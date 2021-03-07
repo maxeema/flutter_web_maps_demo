@@ -31,7 +31,7 @@ polygon() {
   );
 }
 
-Polygon _polygon;
+Polygon? _polygon;
 go(GMap map) {
   _polygon ??= polygon();
   map

@@ -24,15 +24,15 @@ final mapTypeNames = {
 MapTypeId _type = mapTypes.first;
 MapTypeId get type => _type;
 
-GMap _map;
-GMap get map => _map;
+GMap? _map;
+GMap? get map => _map;
 
-final _mapInstance = ValueNotifier<GMap>(null);
-ValueListenable<GMap> get mapInstanceNotifier => _mapInstance;
+final _mapInstance = ValueNotifier<GMap?>(null);
+ValueListenable<GMap?> get mapInstanceNotifier => _mapInstance;
 
 final mapTypeIdChangeNotifier = ChangeNotifier();
 
-String get mapTypeName => mapTypeNames[type];
+String get mapTypeName => mapTypeNames[type]!;
 
 initMap() {
   _map?.center = bermuda.position;
@@ -73,7 +73,7 @@ void _switchMapType(MapTypeId newValue) {
   mapTypeIdChangeNotifier.notifyListeners();
 }
 
-KmlLayer _kmlLayer;
+KmlLayer? _kmlLayer;
 loadKml(url) {
   _kmlLayer ??= KmlLayer(KmlLayerOptions()
     ..preserveViewport = false
@@ -83,7 +83,7 @@ loadKml(url) {
   _kmlLayer.map = _map;
 }
 
-goBermuda() => bermuda.go(map);
+goBermuda() => bermuda.go(map!);
 
 reset() {
   initMap();
