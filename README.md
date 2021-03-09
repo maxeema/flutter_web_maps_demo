@@ -1,8 +1,12 @@
-# Flutter Web - Maps with KML
+# Flutter Web - Google Maps with KMLs and Bermuda
 
-An example of working with KML, Polygons in Flutter web
+An example of working with KML and Polygons in Flutter web using the [google_maps](https://pub.dev/packages/google_maps) plugin 
 
-[https://maxeema.github.io/flutter_web_maps_demo/](https://maxeema.github.io/flutter_web_maps_demo/)
+Live [https://maxeema.github.io/flutter_web_maps_demo/](https://maxeema.github.io/flutter_web_maps_demo/)
+
+Article [https://www.linkedin.com/pulse/flutter-web-how-work-kml-max-shemetov](https://www.linkedin.com/pulse/flutter-web-how-work-kml-max-shemetov)
+
+![Screenshot](flutter_web_maps_demo.jpg)
 
 ## Getting Started
 
