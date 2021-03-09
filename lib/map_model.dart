@@ -1,10 +1,10 @@
-import 'dart:async';
 import 'dart:html';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_maps/google_maps.dart';
 import 'package:universal_ui/universal_ui.dart';
+
 import 'bermuda.dart' as bermuda;
 
 const html_id = 'my_map';
@@ -34,11 +34,7 @@ final mapTypeIdChangeNotifier = ChangeNotifier();
 
 String get mapTypeName => mapTypeNames[type]!;
 
-initMap() {
-  _map?.center = bermuda.position.toLatLng();
-  _map?.zoom = bermuda.zoom;
-}
-registerMap() {
+register() {
   PlatformViewRegistryFix().registerViewFactory(html_id, (int viewId) {
     final elem = DivElement()
       ..id = html_id
@@ -51,13 +47,18 @@ registerMap() {
 
     _map = GMap(elem, mapOptions);
 
-    Future(() {
-      _mapInstance.value = _map;
-      initMap();
-    });
-
     return elem;
   });
+}
+
+populate() {
+  _mapInstance.value = _map;
+  _init();
+}
+
+_init() {
+  _map?.center = bermuda.position.toLatLng();
+  _map?.zoom = bermuda.zoom;
 }
 
 void switchMapType() {
@@ -86,7 +87,7 @@ loadKml(url) {
 goBermuda() => bermuda.go(map!);
 
 reset() {
-  initMap();
+  _init();
   _kmlLayer?.map = null;
   bermuda.reset();
   if (_map != null)
