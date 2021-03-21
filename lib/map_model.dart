@@ -9,9 +9,9 @@ import 'bermuda.dart' as bermuda;
 
 const html_id = 'my_map';
 
-// const kml = 'https://developers.google.com/maps/documentation/javascript/examples/kml/westcampus.kml';
 const kml = 'http://googlearchive.github.io/js-v2-samples/ggeoxml/cta.kml';
-// const kml = 'https://maxeema.github.io/flutter_web_maps_demo/doc.kml';
+// const kml = 'https://maxeema.github.io/flutter_web_maps_demo/example.kml';
+// const kml = 'https://developers.google.com/maps/documentation/javascript/examples/kml/westcampus.kml';
 
 final mapTypes = [ MapTypeId.TERRAIN, MapTypeId.ROADMAP, MapTypeId.SATELLITE, MapTypeId.HYBRID, ];
 final mapTypeNames = {
